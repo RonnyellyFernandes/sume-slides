@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUME — Inteligência Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="presentation/slide-01-capa.jpg">
+<link rel="preload" as="image" href="presentation/slide-02-proposta.jpg">
+<link rel="preload" as="image" href="presentation/slide-03-credenciais.jpg">
+<link rel="preload" as="image" href="presentation/slide-04-problemas.jpg">
+<link rel="preload" as="image" href="presentation/slide-05-solucao.jpg">
+<link rel="preload" as="image" href="presentation/slide-06-ciclo.jpg">
+<link rel="preload" as="image" href="presentation/slide-07-diagnostico.jpg">
+<link rel="preload" as="image" href="presentation/slide-08-reengenharia.jpg">
+<link rel="preload" as="image" href="presentation/slide-09-blindagem.jpg">
+<link rel="preload" as="image" href="presentation/slide-10-comunicacao.jpg">
+<link rel="preload" as="image" href="presentation/slide-11-cases-capa.jpg">
+<link rel="preload" as="image" href="presentation/slide-12-cases-dados.jpg">
+<link rel="preload" as="image" href="presentation/slide-13-pergunta.jpg">
+<link rel="preload" as="image" href="presentation/slide-14-fechamento.jpg">
+
+<style>
+  :root {
+    --dark-green: #2C3A28;
+    --med-green:  #3D4F38;
+    --light-green:#6B8C5A;
+    --beige:      #E8E0CC;
+    --beige-dark: #D4C9B0;
+    --cream:      #F5F2EA;
+    --accent:     #8FAF72;
+    --accent-dark:#6A8A55;
+    --dark-text:  #1E2B1A;
+    --white-text: #F5F2EA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #0a0a0a;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  #stage {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Video background */
+  .slide-video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.25;
+  }
+  .slide > *:not(.slide-video) { position: relative; z-index: 1; }
+
+  /* Faixa lateral esquerda (marca SUME) */
+  .side-bar {
+    position: absolute;
+    left: 0; top: 0;
+    width: 14px; height: 100%;
+    background: var(--accent);
+    z-index: 2;
+  }
+
+  /* Footer de marca */
+  .slide-footer {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    z-index: 10;
+  }
+  .footer-dark  { background: rgba(61,79,56,0.92); color: var(--accent); }
+  .footer-light { background: rgba(197,186,158,0.92); color: #8A7D5E; }
+
+  /* ===================== SLIDE 1 — CAPA ===================== */
+  #slide1 {
+    background: linear-gradient(135deg, rgba(28,42,24,0.92) 0%, rgba(44,58,40,0.85) 60%, rgba(30,43,26,0.95) 100%),
+      url('presentation/slide-01-capa.jpg') center/cover no-repeat;
+  }
+
+  .s1-logo {
+    position: absolute;
+    top: 160px; left: 80px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 160px;
+    font-weight: 900;
+    letter-spacing: 40px;
+    color: var(--white-text);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .s1-tag {
+    position: absolute;
+    top: 380px; left: 80px;
+    background: var(--accent);
+    color: var(--dark-green);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 6px;
+    padding: 8px 24px;
+    text-transform: uppercase;
+  }
+
+  .s1-subtitle {
+    position: absolute;
+    top: 450px; left: 80px;
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+
+  .s1-name {
+    position: absolute;
+    top: 510px; left: 80px;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: var(--light-green);
+    text-transform: uppercase;
+  }
+
+  .s1-divider {
+    position: absolute;
+    top: 570px; left: 80px;
+    width: 640px; height: 1px;
+    background: var(--light-green);
+    opacity: 0.6;
+  }
+
+  .s1-esg {
+    position: absolute;
+    top: 592px; left: 80px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: var(--accent);
+    font-style: italic;
+    text-transform: uppercase;
+  }
+
+  /* Círculos decorativos */
+  .s1-circle1 {
+    position: absolute;
+    top: 30px; right: -80px;
+    width: 640px; height: 640px;
+    border: 2.5px solid var(--med-green);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .s1-circle2 {
+    position: absolute;
+    top: 120px; right: 20px;
+    width: 460px; height: 460px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .s1-circle3 {
+    position: absolute;
+    top: 220px; right: 120px;
+    width: 260px; height: 260px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.3;
+    background: rgba(143,175,114,0.04);
+  }
+
+  /* ===================== SLIDE 2 — PROPOSTA ===================== */
+  #slide2 {
+    background: linear-gradient(160deg, rgba(232,224,204,0.97) 0%, rgba(245,242,234,0.95) 50%, rgba(212,201,176,0.97) 100%),
+      url('presentation/slide-02-proposta.jpg') center/cover no-repeat;
+  }
+
+  .s2-header {
+    position: absolute;
+    top: 40px; left: 40px;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .s2-header-logo {
+    font-size: 32px; font-weight: 900;
+    letter-spacing: 10px; color: var(--dark-green);
+  }
+  .s2-header-sub {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 4px; color: var(--light-green);
+    text-transform: uppercase;
+  }
+
+  .s2-otimizamos {
+    position: absolute;
+    top: 130px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 68px; font-weight: 800;
+    letter-spacing: 8px; color: var(--dark-text);
+    text-transform: uppercase;
+  }
+
+  .s2-elemento-box {
+    position: absolute;
+    top: 220px; left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    background: var(--dark-green);
+    padding: 18px 40px;
+    text-align: center;
+  }
+  .s2-elemento-text {
+    font-size: 52px; font-weight: 900;
+    letter-spacing: 6px; color: var(--white-text);
+    text-transform: uppercase;
+  }
+
+  .s2-para {
+    position: absolute;
+    top: 325px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 52px; font-weight: 300;
+    letter-spacing: 12px; color: var(--dark-text);
+    text-transform: uppercase;
+  }
+
+  .s2-cards {
+    position: absolute;
+    top: 430px; left: 60px;
+    width: 1800px;
+    display: flex; gap: 30px;
+  }
+  .s2-card {
+    flex: 1;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 6px;
+  }
+  .s2-card-0 { background: var(--accent); }
+  .s2-card-1 { background: var(--med-green); }
+  .s2-card-2 { background: var(--dark-green); }
+  .s2-card-label {
+    font-size: 20px; font-weight: 800;
+    letter-spacing: 4px; text-align: center;
+    line-height: 1.4; text-transform: uppercase;
+  }
+  .s2-card-0 .s2-card-label { color: var(--dark-green); }
+  .s2-card-1 .s2-card-label,
+  .s2-card-2 .s2-card-label { color: var(--white-text); }
+
+  /* ===================== SLIDE 3 — CREDENCIAIS ===================== */
+  #slide3 {
+    background: linear-gradient(145deg, rgba(28,42,24,0.9) 0%, rgba(44,58,40,0.88) 70%, rgba(20,30,18,0.95) 100%),
+      url('presentation/slide-03-credenciais.jpg') center/cover no-repeat;
+  }
+
+  .s3-title {
+    position: absolute;
+    top: 120px; left: 80px;
+    font-size: 64px; font-weight: 800;
+    letter-spacing: 3px; color: var(--white-text);
+    line-height: 1.2; text-transform: uppercase;
+    max-width: 900px;
+  }
+  .s3-title span { color: var(--accent); }
+
+  .s3-desc {
+    position: absolute;
+    top: 330px; left: 80px;
+    font-size: 22px; font-weight: 300;
+    color: var(--cream); line-height: 1.7;
+    max-width: 860px;
+  }
+
+  .s3-cards {
+    position: absolute;
+    top: 120px; right: 80px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s3-card {
+    width: 580px; height: 200px;
+    display: flex; align-items: center; gap: 30px;
+    padding: 0 36px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+  }
+  .s3-card-0 { background: rgba(61,79,56,0.7); }
+  .s3-card-1 { background: rgba(52,74,46,0.7); }
+  .s3-card-2 { background: rgba(44,58,40,0.7); }
+  .s3-card-num {
+    font-size: 64px; font-weight: 900;
+    color: var(--accent); min-width: 140px;
+    text-align: center; line-height: 1;
+  }
+  .s3-card-label {
+    font-size: 16px; font-weight: 400;
+    color: var(--white-text); line-height: 1.5;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .s3-card-label strong {
+    display: block; font-size: 20px;
+    font-weight: 700; color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  /* ===================== SLIDE 4 — PROBLEMAS ===================== */
+  #slide4 {
+    background: linear-gradient(150deg, rgba(232,224,204,0.97) 0%, rgba(245,242,234,0.95) 100%),
+      url('presentation/slide-04-problemas.jpg') center/cover no-repeat;
+  }
+
+  .s4-title {
+    position: absolute;
+    top: 60px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 42px; font-weight: 800;
+    letter-spacing: 4px; color: var(--dark-green);
+    text-transform: uppercase;
+  }
+
+  .s4-cards {
+    position: absolute;
+    top: 160px; left: 50px;
+    display: flex; gap: 30px; width: 1820px;
+  }
+  .s4-card {
+    flex: 1; border-radius: 8px;
+    padding: 40px 36px;
+    height: 800px;
+    display: flex; flex-direction: column;
+  }
+  .s4-card-0, .s4-card-2 { background: var(--dark-green); }
+  .s4-card-1, .s4-card-3 { background: var(--med-green); }
+
+  .s4-card-num {
+    font-size: 52px; font-weight: 900;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .s4-card-title {
+    font-size: 20px; font-weight: 700;
+    color: var(--white-text); text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--accent);
+    line-height: 1.4;
+  }
+  .s4-card-desc {
+    font-size: 15px; font-weight: 300;
+    color: var(--cream); line-height: 1.7;
+  }
+
+  /* ===================== SLIDE 5 — SOLUÇÃO ===================== */
+  #slide5 {
+    background: linear-gradient(135deg, rgba(20,32,18,0.92) 0%, rgba(44,58,40,0.9) 100%),
+      url('presentation/slide-05-solucao.jpg') center/cover no-repeat;
+  }
+
+  .s5-title {
+    position: absolute;
+    top: 80px; left: 80px; right: 80px;
+    text-align: center;
+    font-size: 52px; font-weight: 800;
+    letter-spacing: 4px; color: var(--white-text);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .s5-title span { color: var(--accent); }
+
+  .s5-items {
+    position: absolute;
+    top: 260px; left: 80px; right: 80px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .s5-item {
+    display: flex; align-items: flex-start; gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid rgba(61,79,56,0.8);
+  }
+  .s5-item:last-child { border-bottom: none; }
+  .s5-item-tag {
+    min-width: 120px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    font-size: 18px; font-weight: 800;
+    letter-spacing: 3px;
+    flex-shrink: 0;
+  }
+  .s5-item-tag-0 { color: var(--accent); }
+  .s5-item-tag-1 { color: var(--light-green); }
+  .s5-item-tag-2 { color: var(--cream); }
+
+  .s5-item-content { flex: 1; }
+  .s5-item-title {
+    font-size: 22px; font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase; letter-spacing: 2px;
+  }
+  .s5-item-0 .s5-item-title { color: var(--accent); }
+  .s5-item-1 .s5-item-title { color: var(--light-green); }
+  .s5-item-2 .s5-item-title { color: var(--cream); }
+  .s5-item-desc {
+    font-size: 16px; font-weight: 300;
+    color: rgba(232,224,204,0.85); line-height: 1.7;
+  }
+
+  /* ===================== SLIDE 6 — CICLO ===================== */
+  #slide6 {
+    background: linear-gradient(150deg, rgba(232,224,204,0.97) 0%, rgba(212,201,176,0.95) 100%),
+      url('presentation/slide-06-ciclo.jpg') center/cover no-repeat;
+  }
+
+  .s6-title {
+    position: absolute;
+    top: 70px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 36px; font-weight: 700;
+    letter-spacing: 5px; color: var(--dark-green);
+    text-transform: uppercase;
+  }
+  .s6-sub {
+    position: absolute;
+    top: 125px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 16px; font-weight: 400;
+    letter-spacing: 3px; color: var(--light-green);
+    text-transform: uppercase;
+  }
+
+  .s6-steps {
+    position: absolute;
+    top: 220px; left: 80px;
+    width: 1760px;
+    display: flex; gap: 0; align-items: flex-start;
+  }
+  .s6-step {
+    flex: 1; display: flex;
+    flex-direction: column; align-items: center;
+    gap: 32px; position: relative;
+  }
+  .s6-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -30px; top: 80px;
+    font-size: 36px; color: var(--accent);
+    font-weight: 300;
+  }
+  .s6-circle {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 52px; font-weight: 900; color: var(--accent);
+  }
+  .s6-circle-odd  { background: var(--dark-green); }
+  .s6-circle-even { background: var(--accent); }
+  .s6-circle-even { color: var(--dark-green); }
+
+  .s6-label {
+    font-size: 18px; font-weight: 700;
+    text-align: center; color: var(--dark-green);
+    text-transform: uppercase; letter-spacing: 2px;
+    line-height: 1.5; max-width: 360px;
+  }
+
+  .s6-connector {
+    position: absolute;
+    bottom: 200px; left: 100px; right: 100px;
+    height: 2px; background: var(--accent); opacity: 0.6;
+  }
+
+  /* ===================== SLIDES 7-10: PROTOCOLOS ===================== */
+  .proto-slide-dark {
+    background: linear-gradient(145deg, rgba(20,30,18,0.92) 0%, rgba(44,58,40,0.9) 100%);
+  }
+  .proto-slide-light {
+    background: linear-gradient(145deg, rgba(232,224,204,0.97) 0%, rgba(245,242,234,0.95) 100%);
+  }
+
+  #slide7 {
+    background: linear-gradient(145deg, rgba(20,30,18,0.93) 0%, rgba(44,58,40,0.9) 100%),
+      url('presentation/slide-07-diagnostico.jpg') center/cover no-repeat;
+  }
+  #slide8 {
+    background: linear-gradient(145deg, rgba(232,224,204,0.97) 0%, rgba(212,201,176,0.95) 100%),
+      url('presentation/slide-08-reengenharia.jpg') center/cover no-repeat;
+  }
+  #slide9 {
+    background: linear-gradient(145deg, rgba(20,30,18,0.93) 0%, rgba(44,58,40,0.9) 100%),
+      url('presentation/slide-09-blindagem.jpg') center/cover no-repeat;
+  }
+  #slide10 {
+    background: linear-gradient(145deg, rgba(232,224,204,0.97) 0%, rgba(212,201,176,0.95) 100%),
+      url('presentation/slide-10-comunicacao.jpg') center/cover no-repeat;
+  }
+
+  .proto-num-badge {
+    position: absolute;
+    top: 40px; left: 80px;
+    width: 80px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 900;
+    letter-spacing: 2px;
+  }
+  .badge-dark { background: var(--accent); color: var(--dark-green); }
+  .badge-light { background: var(--dark-green); color: var(--accent); }
+
+  .proto-title {
+    position: absolute;
+    top: 40px; left: 180px;
+    font-size: 26px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    line-height: 52px;
+  }
+  .title-dark  { color: var(--white-text); }
+  .title-light { color: var(--dark-green); }
+
+  .proto-headline {
+    position: absolute;
+    top: 120px; left: 80px; right: 80px;
+    font-size: 34px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 2px;
+    line-height: 1.3;
+  }
+  .headline-dark  { color: var(--accent); }
+  .headline-light { color: var(--dark-green); }
+
+  /* Slide 7 — Diagnóstico */
+  .s7-method-label {
+    position: absolute;
+    top: 310px; left: 80px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 5px; color: var(--accent);
+    text-transform: uppercase;
+  }
+  .s7-method-items {
+    position: absolute;
+    top: 360px; left: 80px;
+    display: flex; flex-direction: column; gap: 18px;
+    max-width: 740px;
+  }
+  .s7-method-item {
+    font-size: 18px; font-weight: 300;
+    color: var(--cream); display: flex; align-items: center; gap: 16px;
+  }
+  .s7-method-item::before {
+    content: '▶';
+    color: var(--accent); font-size: 12px; flex-shrink: 0;
+  }
+
+  .s7-lso-label {
+    position: absolute;
+    top: 310px; right: 80px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 5px; color: var(--accent);
+    text-transform: uppercase; text-align: right;
+    width: 900px;
+  }
+  .s7-lso-grid {
+    position: absolute;
+    top: 360px; right: 80px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; width: 900px;
+  }
+  .s7-lso-item {
+    height: 62px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    border-radius: 4px;
+  }
+  .lso-low    { background: var(--med-green); color: var(--white-text); }
+  .lso-mid    { background: #4A6340; color: var(--white-text); }
+  .lso-high   { background: var(--accent); color: var(--dark-green); font-weight: 800; }
+
+  .s7-sroi-box {
+    position: absolute;
+    bottom: 60px; left: 80px; right: 80px;
+    height: 100px;
+    background: var(--med-green);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700;
+    color: var(--accent); letter-spacing: 2px;
+  }
+
+  /* Slide 8 — Reengenharia */
+  .s8-desc {
+    position: absolute;
+    top: 200px; left: 80px; right: 80px;
+    font-size: 18px; font-weight: 300;
+    color: var(--dark-text); line-height: 1.7;
+  }
+  .s8-desc strong { font-weight: 700; color: var(--dark-green); }
+
+  .s8-cols {
+    position: absolute;
+    top: 320px; left: 50px;
+    display: flex; gap: 24px; width: 1820px;
+  }
+  .s8-col {
+    flex: 1; border-radius: 8px;
+    padding: 30px 28px;
+    height: 650px;
+  }
+  .s8-col-0, .s8-col-2 { background: var(--dark-green); }
+  .s8-col-1, .s8-col-3 { background: var(--med-green); }
+
+  .s8-col-title {
+    font-size: 14px; font-weight: 800;
+    color: var(--accent); letter-spacing: 4px;
+    text-transform: uppercase; margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--accent);
+  }
+  .s8-col-items { list-style: none; }
+  .s8-col-items li {
+    font-size: 14px; font-weight: 300;
+    color: var(--cream); padding: 10px 0;
+    border-bottom: 1px solid rgba(143,175,114,0.15);
+    display: flex; align-items: flex-start; gap: 10px;
+    line-height: 1.5;
+  }
+  .s8-col-items li::before { content: '•'; color: var(--accent); flex-shrink: 0; }
+
+  /* Slide 9 — Blindagem */
+  .s9-cols {
+    position: absolute;
+    top: 230px; left: 80px;
+    display: flex; gap: 60px; width: 1760px;
+  }
+  .s9-col { flex: 1; }
+  .s9-col-label {
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 5px; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  .s9-method-item {
+    font-size: 20px; font-weight: 400;
+    color: var(--white-text); padding: 20px 0;
+    border-bottom: 1px solid rgba(61,79,56,0.8);
+    display: flex; align-items: center; gap: 20px;
+  }
+  .s9-method-item::before {
+    content: '▶'; color: var(--accent); font-size: 14px;
+  }
+
+  .s9-entrega-item {
+    height: 72px;
+    display: flex; align-items: center; padding: 0 24px;
+    font-size: 15px; font-weight: 400;
+    color: var(--cream); margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .s9-ent-odd  { background: var(--med-green); }
+  .s9-ent-even { background: rgba(52,74,46,0.8); }
+  .s9-entrega-item::before { content: '•'; color: var(--accent); font-size: 18px; flex-shrink: 0; }
+
+  /* Slide 10 — Comunicação */
+  .s10-quote {
+    position: absolute;
+    top: 175px; left: 80px; right: 80px;
+    font-size: 20px; font-weight: 400;
+    color: var(--dark-text); font-style: italic;
+    line-height: 1.7;
+    padding: 24px 32px;
+    border-left: 4px solid var(--dark-green);
+    background: rgba(44,58,40,0.08);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .s10-cards {
+    position: absolute;
+    top: 330px; left: 50px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 28px; width: 1820px;
+  }
+  .s10-card {
+    border-radius: 8px;
+    padding: 34px 36px;
+    height: 280px;
+    display: flex; flex-direction: column;
+  }
+  .s10-card-0, .s10-card-2 { background: var(--dark-green); }
+  .s10-card-1, .s10-card-3 { background: var(--med-green); }
+
+  .s10-card-title {
+    font-size: 16px; font-weight: 800;
+    color: var(--accent); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--accent);
+    line-height: 1.4;
+  }
+  .s10-card-desc {
+    font-size: 15px; font-weight: 300;
+    color: var(--cream); line-height: 1.7;
+    flex: 1;
+  }
+
+  /* ===================== SLIDE 11 — CASES CAPA ===================== */
+  #slide11 {
+    background: linear-gradient(145deg, rgba(20,30,18,0.9) 0%, rgba(36,50,32,0.92) 60%, rgba(20,30,18,0.96) 100%),
+      url('presentation/slide-11-cases-capa.jpg') center/cover no-repeat;
+  }
+
+  .s11-eyebrow {
+    position: absolute;
+    top: 240px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 15px; font-weight: 600;
+    letter-spacing: 10px; color: var(--light-green);
+    text-transform: uppercase;
+  }
+  .s11-title {
+    position: absolute;
+    top: 290px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 160px; font-weight: 900;
+    letter-spacing: 40px; color: var(--white-text);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .s11-divider {
+    position: absolute;
+    top: 540px; left: 50%;
+    transform: translateX(-50%);
+    width: 640px; height: 2px;
+    background: var(--accent);
+  }
+  .s11-sub {
+    position: absolute;
+    top: 568px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 20px; font-weight: 400;
+    letter-spacing: 6px; color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* ===================== SLIDE 12 — CASES DADOS ===================== */
+  #slide12 {
+    background: linear-gradient(145deg, rgba(232,224,204,0.97) 0%, rgba(212,201,176,0.95) 100%),
+      url('presentation/slide-12-cases-dados.jpg') center/cover no-repeat;
+  }
+
+  .s12-title {
+    position: absolute;
+    top: 60px; left: 0; width: 100%;
+    text-align: center;
+    font-size: 30px; font-weight: 700;
+    letter-spacing: 4px; color: var(--dark-green);
+    text-transform: uppercase;
+  }
+
+  .s12-stats {
+    position: absolute;
+    top: 170px; left: 100px;
+    display: flex; gap: 80px; width: 1720px;
+  }
+  .s12-stat {
+    flex: 1; height: 500px;
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px;
+  }
+  .s12-stat-0 { background: var(--dark-green); border: 1px solid var(--accent); }
+  .s12-stat-1 { background: var(--med-green);  border: 1px solid var(--accent); }
+
+  .s12-stat-num {
+    font-size: 100px; font-weight: 900;
+    color: var(--accent); line-height: 1;
+  }
+  .s12-stat-label {
+    font-size: 24px; font-weight: 400;
+    color: var(--white-text); letter-spacing: 3px;
+    text-align: center; line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  /* ===================== SLIDE 13 — PERGUNTA ===================== */
+  #slide13 {
+    background: linear-gradient(145deg, rgba(20,30,18,0.93) 0%, rgba(44,58,40,0.9) 100%),
+      url('presentation/slide-13-pergunta.jpg') center/cover no-repeat;
+  }
+
+  .s13-question {
+    position: absolute;
+    top: 100px; left: 80px; right: 80px;
+    text-align: center;
+    font-size: 36px; font-weight: 700;
+    color: var(--white-text); line-height: 1.5;
+    letter-spacing: 1px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .s13-question span { color: var(--accent); font-style: normal; font-weight: 900; }
+
+  .s13-cards {
+    position: absolute;
+    top: 380px; left: 50px;
+    display: flex; gap: 24px; width: 1820px;
+  }
+  .s13-card {
+    flex: 1; height: 500px;
+    border-radius: 8px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px;
+    padding: 30px;
+  }
+  .s13-card-0 { background: var(--med-green); border: 1px solid var(--accent); }
+  .s13-card-1 { background: rgba(52,74,46,0.8); border: 1px solid rgba(143,175,114,0.4); }
+  .s13-card-2 { background: var(--med-green); border: 1px solid var(--accent); }
+  .s13-card-3 { background: rgba(52,74,46,0.8); border: 1px solid rgba(143,175,114,0.4); }
+
+  .s13-card-num {
+    font-size: 60px; font-weight: 900; color: var(--accent);
+    line-height: 1;
+  }
+  .s13-card-label {
+    font-size: 16px; font-weight: 700;
+    text-align: center; color: var(--white-text);
+    text-transform: uppercase; letter-spacing: 2px;
+    line-height: 1.5;
+  }
+
+  /* ===================== SLIDE 14 — FECHAMENTO ===================== */
+  #slide14 {
+    background: linear-gradient(135deg, rgba(20,30,18,0.92) 0%, rgba(36,50,32,0.88) 60%, rgba(20,30,18,0.95) 100%),
+      url('presentation/slide-14-fechamento.jpg') center/cover no-repeat;
+  }
+
+  .s14-logo {
+    position: absolute;
+    top: 120px; left: 80px;
+    font-size: 160px; font-weight: 900;
+    letter-spacing: 40px; color: var(--white-text);
+    line-height: 1;
+  }
+  .s14-tag {
+    position: absolute;
+    top: 330px; left: 80px;
+    background: var(--accent);
+    color: var(--dark-green);
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 6px; padding: 8px 28px;
+    text-transform: uppercase;
+  }
+  .s14-subtitle {
+    position: absolute;
+    top: 400px; left: 80px;
+    font-size: 22px; font-weight: 300;
+    color: var(--light-green); letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  .s14-divider {
+    position: absolute;
+    top: 458px; left: 80px;
+    width: 800px; height: 1px;
+    background: rgba(107,140,90,0.5);
+  }
+  .s14-question {
+    position: absolute;
+    top: 490px; left: 80px;
+    font-size: 28px; font-weight: 700;
+    color: var(--cream); line-height: 1.4;
+    max-width: 900px;
+  }
+  .s14-contact {
+    position: absolute;
+    top: 620px; left: 80px;
+    width: 1000px; height: 110px;
+    background: var(--med-green);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700;
+    color: var(--accent); letter-spacing: 2px;
+    gap: 40px;
+  }
+  .s14-contact-divider {
+    height: 32px; width: 1.5px;
+    background: var(--accent); opacity: 0.5;
+  }
+
+  /* Círculos direita */
+  .s14-circle1 {
+    position: absolute;
+    top: 30px; right: -80px;
+    width: 640px; height: 640px;
+    border: 2.5px solid var(--med-green);
+    border-radius: 50%; opacity: 0.5;
+  }
+  .s14-circle2 {
+    position: absolute;
+    top: 140px; right: 30px;
+    width: 420px; height: 420px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%; opacity: 0.4;
+  }
+
+  .s14-author {
+    position: absolute;
+    bottom: 70px; left: 80px; right: 80px;
+    text-align: center;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 4px; color: var(--light-green);
+    text-transform: uppercase;
+  }
+
+  /* ===================== NAVEGAÇÃO ===================== */
+  #nav-counter {
+    position: fixed;
+    bottom: 30px; right: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 3px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  #nav-dots {
+    position: fixed;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 8px; align-items: center;
+    z-index: 9999;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dot.active-dot {
+    background: var(--accent);
+    width: 22px; border-radius: 3px;
+  }
+
+  #prev-btn, #next-btn {
+    position: fixed; top: 50%;
+    transform: translateY(-50%);
+    width: 50px; height: 80px;
+    background: rgba(44,58,40,0.4);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 24px;
+    transition: all 0.3s;
+    z-index: 9999;
+  }
+  #prev-btn:hover, #next-btn:hover {
+    background: rgba(143,175,114,0.3);
+    color: var(--accent);
+  }
+  #prev-btn { left: 0; border-radius: 0 6px 6px 0; }
+  #next-btn { right: 0; border-radius: 6px 0 0 6px; }
+</style>
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- ===== SLIDE 1 — CAPA ===== -->
+  <div class="slide active" id="slide1">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-01.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s1-logo">SUME</div>
+    <div class="s1-tag">ELEMENTO S</div>
+    <div class="s1-subtitle">INTELIGÊNCIA SOCIAL E EFICIÊNCIA OPERACIONAL</div>
+    <div class="s1-name">MISSLENE FARRAPO &nbsp;|&nbsp; CONSULTORIA ESTRATÉGICA</div>
+    <div class="s1-divider"></div>
+    <div class="s1-esg">ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA</div>
+    <div class="s1-circle1"></div>
+    <div class="s1-circle2"></div>
+    <div class="s1-circle3"></div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 2 — PROPOSTA ===== -->
+  <div class="slide" id="slide2">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-02.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s2-header">
+      <span class="s2-header-logo">SUME</span>
+      <span class="s2-header-sub">Inteligência Social</span>
+    </div>
+    <div class="s2-otimizamos">OTIMIZAMOS O</div>
+    <div class="s2-elemento-box">
+      <div class="s2-elemento-text">ELEMENTO SOCIAL (S) DO ESG</div>
+    </div>
+    <div class="s2-para">PARA</div>
+    <div class="s2-cards">
+      <div class="s2-card s2-card-0"><div class="s2-card-label">MITIGAR RISCOS<br>TERRITORIAIS</div></div>
+      <div class="s2-card s2-card-1"><div class="s2-card-label">ELIMINAR<br>DESPERDÍCIOS</div></div>
+      <div class="s2-card s2-card-2"><div class="s2-card-label">GARANTIR A FLUIDEZ<br>DA SUA OPERAÇÃO</div></div>
+    </div>
+    <div class="slide-footer footer-light">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 3 — CREDENCIAIS ===== -->
+  <div class="slide" id="slide3">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-03.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s3-title">ESTRATÉGIA SOCIAL EM<br><span>CENÁRIOS DE COMPLEXIDADE</span></div>
+    <div class="s3-desc">Atuação direta na interface entre operações críticas e comunidades, com foco na garantia da Licença Social (LSO) e na proteção do capital investido.</div>
+    <div class="s3-cards">
+      <div class="s3-card s3-card-0">
+        <div class="s3-card-num">12</div>
+        <div class="s3-card-label"><strong>ANOS</strong>de experiência</div>
+      </div>
+      <div class="s3-card s3-card-1">
+        <div class="s3-card-num">MBA</div>
+        <div class="s3-card-label"><strong>PÓS-GRADUAÇÃO</strong>especialização avançada</div>
+      </div>
+      <div class="s3-card s3-card-2">
+        <div class="s3-card-num">ESG</div>
+        <div class="s3-card-label"><strong>GESTÃO PÚBLICA</strong>e Sustentabilidade Empresarial</div>
+      </div>
+    </div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 4 — PROBLEMAS ===== -->
+  <div class="slide" id="slide4">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-04.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s4-title">ONDE A OPERAÇÃO PERDE VALOR SOCIAL?</div>
+    <div class="s4-cards">
+      <div class="s4-card s4-card-0">
+        <div class="s4-card-num">01</div>
+        <div class="s4-card-title">Invisibilidade<br>de Custos</div>
+        <div class="s4-card-desc">Falta de rastreabilidade sobre o real impacto financeiro de conflitos ou da inércia cultural e/ou territorial.</div>
+      </div>
+      <div class="s4-card s4-card-1">
+        <div class="s4-card-num">02</div>
+        <div class="s4-card-title">Pulverização<br>de Recursos</div>
+        <div class="s4-card-desc">Investimentos sociais sem conexão com o core business, gerando baixo ROI e zero blindagem.</div>
+      </div>
+      <div class="s4-card s4-card-2">
+        <div class="s4-card-num">03</div>
+        <div class="s4-card-title">Fragilidade<br>de Dados</div>
+        <div class="s4-card-desc">Exposição ao risco de Greenwashing por ausência de evidências auditáveis.</div>
+      </div>
+      <div class="s4-card s4-card-3">
+        <div class="s4-card-num">04</div>
+        <div class="s4-card-title">Vulnerabilidade<br>Territorial</div>
+        <div class="s4-card-desc">Inércia diante de riscos latentes que podem paralisar operações ou atingir a reputação da empresa.</div>
+      </div>
+    </div>
+    <div class="slide-footer footer-light">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 5 — SOLUÇÃO ===== -->
+  <div class="slide" id="slide5">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-05.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s5-title">A INTELIGÊNCIA SOCIAL COMO<br><span>ATIVO DE VIABILIDADE E GOVERNANÇA</span></div>
+    <div class="s5-items">
+      <div class="s5-item s5-item-0">
+        <div class="s5-item-tag s5-item-tag-0">S + E</div>
+        <div class="s5-item-content">
+          <div class="s5-item-title">Sincronia Operacional</div>
+          <div class="s5-item-desc">Antecipação de condicionantes socioambientais para eliminar gargalos no cronograma e reduzir o custo de capital parado.</div>
+        </div>
+      </div>
+      <div class="s5-item s5-item-1">
+        <div class="s5-item-tag s5-item-tag-1">S + G</div>
+        <div class="s5-item-content">
+          <div class="s5-item-title">Capital Auditável</div>
+          <div class="s5-item-desc">Transformação de investimentos sociais em indicadores auditáveis, garantindo transparência total na alocação de recursos e integridade na governança.</div>
+        </div>
+      </div>
+      <div class="s5-item s5-item-2">
+        <div class="s5-item-tag s5-item-tag-2">LSO</div>
+        <div class="s5-item-content">
+          <div class="s5-item-title">LSO Estratégica</div>
+          <div class="s5-item-desc">Gestão de riscos territoriais através de prova técnica robusta, convertendo a aceitação social em segurança jurídica contra paralisações e crises reputacionais.</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 6 — CICLO ===== -->
+  <div class="slide" id="slide6">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-06.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s6-title">PROTOCOLOS</div>
+    <div class="s6-sub">O CICLO DE ESTABILIZAÇÃO E PERFORMANCE</div>
+    <div class="s6-steps">
+      <div class="s6-step">
+        <div class="s6-circle s6-circle-odd">01</div>
+        <div class="s6-label">DIAGNÓSTICO<br>em S-ROI<br>e Nível LSO</div>
+      </div>
+      <div class="s6-step">
+        <div class="s6-circle s6-circle-even">02</div>
+        <div class="s6-label">REENGENHARIA<br>DE ATIVOS</div>
+      </div>
+      <div class="s6-step">
+        <div class="s6-circle s6-circle-odd">03</div>
+        <div class="s6-label">BLINDAGEM<br>TERRITORIAL E<br>REPUTACIONAL</div>
+      </div>
+      <div class="s6-step">
+        <div class="s6-circle s6-circle-even">04</div>
+        <div class="s6-label">COMUNICAÇÃO<br>ESTRATÉGICA</div>
+      </div>
+    </div>
+    <div class="s6-connector"></div>
+    <div class="slide-footer footer-light">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 7 — DIAGNÓSTICO ===== -->
+  <div class="slide" id="slide7">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-07.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="proto-num-badge badge-dark">01</div>
+    <div class="proto-title title-dark">DIAGNÓSTICO EM S-ROI E NÍVEL LSO</div>
+    <div class="proto-headline headline-dark">IDENTIFICAR PASSIVOS SOCIAIS PARA CONVERTÊ-LOS<br>EM ATIVOS OPERACIONAIS E GARANTIR A LSO.</div>
+    <div class="s7-method-label">METODOLOGIA</div>
+    <div class="s7-method-items">
+      <div class="s7-method-item">Valor parcial de S-ROI</div>
+      <div class="s7-method-item">Mapa de Riscos e Oportunidades</div>
+      <div class="s7-method-item">Dupla Matriz de Materialidade</div>
+      <div class="s7-method-item">Nível da LSO</div>
+    </div>
+    <div class="s7-lso-label" style="text-align:right">ESCALA LSO</div>
+    <div class="s7-lso-grid">
+      <div class="s7-lso-item lso-low">Obtenção</div>
+      <div class="s7-lso-item lso-low">Aceitação</div>
+      <div class="s7-lso-item lso-mid">Aprovação</div>
+      <div class="s7-lso-item lso-mid">Aliança</div>
+      <div class="s7-lso-item lso-mid">Legitimidade</div>
+      <div class="s7-lso-item lso-high">Credibilidade</div>
+      <div class="s7-lso-item lso-high" style="grid-column: span 2;">Confiança</div>
+    </div>
+    <div class="s7-sroi-box">
+      ENTREGA S-ROI: Para cada R$ 1,00 investido, a operação recupera hoje apenas R$ X,XX
+    </div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 8 — REENGENHARIA ===== -->
+  <div class="slide" id="slide8">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-08.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="proto-num-badge badge-light">02</div>
+    <div class="proto-title title-light">REENGENHARIA DE ATIVOS</div>
+    <div class="proto-headline headline-light">CONVERSÃO DE INEFICIÊNCIAS EM CAPITAL SOCIAL</div>
+    <div class="s8-desc"><strong>Entrega Personalizada:</strong> Conversão de ineficiências operacionais em capital social e transformação do corpo técnico em primeira barreira de mitigação de riscos (LSO). Investimento Zero — converte o que já existe.</div>
+    <div class="s8-cols">
+      <div class="s8-col s8-col-0">
+        <div class="s8-col-title">INSUMOS</div>
+        <ul class="s8-col-items">
+          <li>Logística</li>
+          <li>Capital Humano</li>
+          <li>Ações/projetos pré-existentes</li>
+        </ul>
+      </div>
+      <div class="s8-col s8-col-1">
+        <div class="s8-col-title">PROCESSOS</div>
+        <ul class="s8-col-items">
+          <li>Ajuste ou Redesenho</li>
+          <li>Criação ou refino de Comitês</li>
+          <li>Co-criações entre áreas</li>
+          <li>Planejamento Estratégico</li>
+        </ul>
+      </div>
+      <div class="s8-col s8-col-2">
+        <div class="s8-col-title">CULTURA</div>
+        <ul class="s8-col-items">
+          <li>Aculturamento</li>
+          <li>Voluntariado</li>
+          <li>Porta-vozes</li>
+          <li>Diversidade e Inclusão</li>
+          <li>Direitos Humanos</li>
+        </ul>
+      </div>
+      <div class="s8-col s8-col-3">
+        <div class="s8-col-title">RESULTADOS</div>
+        <ul class="s8-col-items">
+          <li>LSO Interna elevada</li>
+          <li>KPIs por temas materiais</li>
+          <li>Manuais e Procedimentos</li>
+          <li>Saúde e Segurança</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer footer-light">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 9 — BLINDAGEM ===== -->
+  <div class="slide" id="slide9">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-09.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="proto-num-badge badge-dark">03</div>
+    <div class="proto-title title-dark">BLINDAGEM TERRITORIAL E REPUTACIONAL</div>
+    <div class="proto-headline headline-dark">ESTABILIZAÇÃO DO TERRITÓRIO ATRAVÉS DA GESTÃO<br>TÉCNICA DE ATIVOS SOCIAIS E NEUTRALIZAÇÃO DE RISCOS.</div>
+    <div class="s9-cols">
+      <div class="s9-col">
+        <div class="s9-col-label">METODOLOGIA</div>
+        <div class="s9-method-item">Masterplan de Ativos Sociais (MAS)</div>
+        <div class="s9-method-item">Matriz de Estabilização Territorial (MET)</div>
+        <div class="s9-method-item">Dashboard de Impacto e Rastro de Auditoria</div>
+      </div>
+      <div class="s9-col">
+        <div class="s9-col-label">ENTREGAS</div>
+        <div class="s9-entrega-item s9-ent-odd">Diagnóstico do território + Fichas técnicas</div>
+        <div class="s9-entrega-item s9-ent-even">Divisão técnica com projeção de deslocamento na LSO</div>
+        <div class="s9-entrega-item s9-ent-odd">Mapa de stakeholders (detratores, neutros, promotores)</div>
+        <div class="s9-entrega-item s9-ent-even">Grupo de lideranças estratégicas — Conselho Consultivo</div>
+        <div class="s9-entrega-item s9-ent-odd">Indicadores do Masterplan e da MET</div>
+        <div class="s9-entrega-item s9-ent-even">Relatório de evidências</div>
+      </div>
+    </div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 10 — COMUNICAÇÃO ===== -->
+  <div class="slide" id="slide10">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-10.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="proto-num-badge badge-light">04</div>
+    <div class="proto-title title-light">COMUNICAÇÃO ESTRATÉGICA</div>
+    <div class="proto-headline headline-light">A LSO EM HOLOFORTES — NARRATIVA DE AUTORIDADE</div>
+    <div class="s10-quote">"Saímos do 'ajudamos pessoas' para: <strong>Investimento em infraestrutura social para estabilidade produtiva.</strong>"</div>
+    <div class="s10-cards">
+      <div class="s10-card s10-card-0">
+        <div class="s10-card-title">Matriz de Narrativa ESG</div>
+        <div class="s10-card-desc">O Storytelling Real: Calendário de conteúdos focado em provar os ODS e a LSO. Campanhas baseadas em fatos auditáveis para evitar qualquer risco de greenwashing.</div>
+      </div>
+      <div class="s10-card s10-card-1">
+        <div class="s10-card-title">Curadoria de Rastro de Evidências</div>
+        <div class="s10-card-desc">Letramento do marketing institucional para tradução dos temas materiais e do Masterplan em roteiros e textos para redes sociais.</div>
+      </div>
+      <div class="s10-card s10-card-2">
+        <div class="s10-card-title">Tradução de Dados (Data Storytelling)</div>
+        <div class="s10-card-desc">Transformação dos gráficos do Dashboard de Impacto em infográficos de alto impacto visual para stakeholders.</div>
+      </div>
+      <div class="s10-card s10-card-3">
+        <div class="s10-card-title">Guia de Voz e Defesa Reputacional</div>
+        <div class="s10-card-desc">Manual de Resposta para uso em crises, garantindo respostas técnicas e baseadas na Matriz de Estabilização (MET).</div>
+      </div>
+    </div>
+    <div class="slide-footer footer-light">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 11 — CASES CAPA ===== -->
+  <div class="slide" id="slide11">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-11.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s11-eyebrow">RESULTADOS REAIS</div>
+    <div class="s11-title">CASES</div>
+    <div class="s11-divider"></div>
+    <div class="s11-sub">DIAGNÓSTICO &nbsp;·&nbsp; REENGENHARIA DE ATIVOS</div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 12 — CASES DADOS ===== -->
+  <div class="slide" id="slide12">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-12.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s12-title">CASES — BLINDAGEM TERRITORIAL / COMUNICAÇÃO ESTRATÉGICA</div>
+    <div class="s12-stats">
+      <div class="s12-stat s12-stat-0">
+        <div class="s12-stat-num">995.496</div>
+        <div class="s12-stat-label">pessoas impactadas<br>no Brasil</div>
+      </div>
+      <div class="s12-stat s12-stat-1">
+        <div class="s12-stat-num">71.000</div>
+        <div class="s12-stat-label">pessoas impactadas<br>no Ceará</div>
+      </div>
+    </div>
+    <div class="slide-footer footer-light">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 13 — PERGUNTA ===== -->
+  <div class="slide" id="slide13">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-13.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s13-question">
+      Considerando o cenário atual da sua empresa,<br>
+      qual destes pilares representa o maior risco de<br>
+      <span>interrupção ou passivo reputacional</span><br>
+      se não for trabalhado?
+    </div>
+    <div class="s13-cards">
+      <div class="s13-card s13-card-0">
+        <div class="s13-card-num">01</div>
+        <div class="s13-card-label">DIAGNÓSTICO<br>em S-ROI e<br>Nível LSO</div>
+      </div>
+      <div class="s13-card s13-card-1">
+        <div class="s13-card-num">02</div>
+        <div class="s13-card-label">REENGENHARIA<br>DE ATIVOS</div>
+      </div>
+      <div class="s13-card s13-card-2">
+        <div class="s13-card-num">03</div>
+        <div class="s13-card-label">BLINDAGEM<br>TERRITORIAL E<br>REPUTACIONAL</div>
+      </div>
+      <div class="s13-card s13-card-3">
+        <div class="s13-card-num">04</div>
+        <div class="s13-card-label">COMUNICAÇÃO<br>ESTRATÉGICA</div>
+      </div>
+    </div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 14 — FECHAMENTO ===== -->
+  <div class="slide" id="slide14">
+    <video class="slide-video" autoplay muted loop playsinline>
+      <source src="presentation/videos/slide-14.mp4" type="video/mp4">
+    </video>
+    <div class="side-bar"></div>
+    <div class="s14-logo">SUME</div>
+    <div class="s14-tag">ELEMENTO S</div>
+    <div class="s14-subtitle">INTELIGÊNCIA SOCIAL</div>
+    <div class="s14-divider"></div>
+    <div class="s14-question">Podemos estruturar o escopo da proposta<br>focando na sua necessidade?</div>
+    <div class="s14-contact">
+      <span>📞 (85) 99645-3475</span>
+      <div class="s14-contact-divider"></div>
+      <span>✉ misslenefarraposocial@gmail.com</span>
+    </div>
+    <div class="s14-circle1"></div>
+    <div class="s14-circle2"></div>
+    <div class="s14-author">MISSLENE FARRAPO &nbsp;·&nbsp; CONSULTORIA ESTRATÉGICA</div>
+    <div class="slide-footer footer-dark">
+      SUME &nbsp;·&nbsp; INTELIGÊNCIA SOCIAL &nbsp;·&nbsp; ESG &nbsp;·&nbsp; TERRITÓRIO &nbsp;·&nbsp; ESTRATÉGIA
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- Navegação -->
+<div id="nav-counter"><span id="cur">1</span> / 14</div>
+
+<div id="nav-dots">
+  <div class="dot active-dot" data-slide="0"></div>
+  <div class="dot" data-slide="1"></div>
+  <div class="dot" data-slide="2"></div>
+  <div class="dot" data-slide="3"></div>
+  <div class="dot" data-slide="4"></div>
+  <div class="dot" data-slide="5"></div>
+  <div class="dot" data-slide="6"></div>
+  <div class="dot" data-slide="7"></div>
+  <div class="dot" data-slide="8"></div>
+  <div class="dot" data-slide="9"></div>
+  <div class="dot" data-slide="10"></div>
+  <div class="dot" data-slide="11"></div>
+  <div class="dot" data-slide="12"></div>
+  <div class="dot" data-slide="13"></div>
+</div>
+
+<button id="prev-btn">&#8249;</button>
+<button id="next-btn">&#8250;</button>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.dot');
+  const counter = document.getElementById('cur');
+  let current = 0;
+
+  function scaleStage() {
+    const stage = document.getElementById('stage');
+    const scaleX = window.innerWidth  / 1920;
+    const scaleY = window.innerHeight / 1080;
+    const scale  = Math.min(scaleX, scaleY);
+    const tx = (window.innerWidth  - 1920 * scale) / 2;
+    const ty = (window.innerHeight - 1080 * scale) / 2;
+    stage.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active-dot');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active-dot');
+    counter.textContent = current + 1;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    goTo(current - 1);
+    if (e.key === 'Home') goTo(0);
+    if (e.key === 'End')  goTo(slides.length - 1);
+  });
+
+  document.getElementById('next-btn').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prev-btn').addEventListener('click', () => goTo(current - 1));
+
+  dots.forEach(d => d.addEventListener('click', () => goTo(parseInt(d.dataset.slide))));
+
+  // Click on slide (not buttons) to advance
+  document.getElementById('stage').addEventListener('click', e => {
+    if (!e.target.closest('#prev-btn') && !e.target.closest('#next-btn') && !e.target.closest('#nav-dots')) {
+      goTo(current + 1);
+    }
+  });
+
+  window.addEventListener('resize', scaleStage);
+  scaleStage();
+</script>
+</body>
+</html>
