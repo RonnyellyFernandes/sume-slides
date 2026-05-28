@@ -44,11 +44,19 @@
     font-family: 'Montserrat', sans-serif;
   }
 
-  #stage {
+  #stage-outer {
     position: fixed;
-    top: 0; left: 0;
-    width: 1920px; height: 1080px;
-    transform-origin: top left;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #stage {
+    width: 1920px;
+    height: 1080px;
+    flex-shrink: 0;
+    transform-origin: center center;
   }
 
   .slide {
@@ -996,7 +1004,7 @@
 </head>
 <body>
 
-<div id="stage">
+<div id="stage-outer"><div id="stage">
 
   <!-- ===== SLIDE 1 — CAPA ===== -->
   <div class="slide active" id="slide1">
@@ -1450,13 +1458,8 @@
   let current = 0;
 
   function scaleStage() {
-    const stage = document.getElementById('stage');
-    const scaleX = window.innerWidth  / 1920;
-    const scaleY = window.innerHeight / 1080;
-    const scale  = Math.min(scaleX, scaleY);
-    const tx = (window.innerWidth  - 1920 * scale) / 2;
-    const ty = (window.innerHeight - 1080 * scale) / 2;
-    stage.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.getElementById('stage').style.transform = `scale(${scale})`;
   }
 
   function goTo(n) {
@@ -1490,5 +1493,6 @@
   window.addEventListener('resize', scaleStage);
   scaleStage();
 </script>
+</div><!-- /stage-outer -->
 </body>
 </html>
